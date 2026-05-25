@@ -1,4 +1,4 @@
-# PhishGuard v3.0
+# PhishGuard 
 
 **Heuristic + PhishTank + Shannon Entropy + NLP-Based Real-Time Phishing Detection**
 
