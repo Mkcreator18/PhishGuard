@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PhishGuard — Settings</title>
+  <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-logo">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <path d="m9 12 2 2 4-4"/>
+      </svg>
+      PhishGuard · Settings
+    </div>
+    <button class="btn btn-secondary" id="themeBtn">🌙</button>
+  </nav>
+
+  <main>
+    <!-- Sensitivity -->
+    <section class="card">
+      <div class="card-title">Detection Sensitivity</div>
+      <div class="card-sub">Controls how aggressively PhishGuard flags sites.</div>
+      <div class="sensitivity-row">
+        <label class="sens-opt" data-val="STRICT">
+          <input type="radio" name="sensitivity" value="STRICT">
+          <div class="sens-box">
+            <div class="sens-name">Strict</div>
+            <div class="sens-desc">Blocks at ≥35. May flag some legit sites.</div>
+          </div>
+        </label>
+        <label class="sens-opt" data-val="BALANCED">
+          <input type="radio" name="sensitivity" value="BALANCED" checked>
+          <div class="sens-box">
+            <div class="sens-name">Balanced ✓</div>
+            <div class="sens-desc">Blocks at ≥50. Recommended.</div>
+          </div>
+        </label>
+        <label class="sens-opt" data-val="RELAXED">
+          <input type="radio" name="sensitivity" value="RELAXED">
+          <div class="sens-box">
+            <div class="sens-name">Relaxed</div>
+            <div class="sens-desc">Blocks at ≥65. Fewer false positives.</div>
+          </div>
+        </label>
+      </div>
+    </section>
+
+    <!-- Toggles -->
+    <section class="card">
+      <div class="card-title">Detection Modules</div>
+      <div class="toggles" id="togglesContainer"></div>
+    </section>
+
+    <!-- Whitelist -->
+    <section class="card">
+      <div class="card-title">Personal Whitelist</div>
+      <div class="card-sub">These domains will never be flagged.</div>
+      <div class="list-input-row">
+        <input type="text" id="whitelistInput" class="text-input" placeholder="e.g. mycompany.com">
+        <button class="btn btn-primary" id="addWhiteBtn">Add</button>
+      </div>
+      <ul class="domain-list" id="whitelistItems"></ul>
+    </section>
+
+    <!-- Blacklist -->
+    <section class="card">
+      <div class="card-title">Personal Blacklist</div>
+      <div class="card-sub">These domains will always be blocked.</div>
+      <div class="list-input-row">
+        <input type="text" id="blacklistInput" class="text-input" placeholder="e.g. evil-site.com">
+        <button class="btn btn-danger" id="addBlackBtn">Add</button>
+      </div>
+      <ul class="domain-list" id="blacklistItems"></ul>
+    </section>
+
+    <!-- Clear data -->
+    <section class="card">
+      <div class="card-title">Data Management</div>
+      <div class="danger-zone">
+        <button class="btn btn-danger" id="clearLogsBtn">Clear Threat Logs</button>
+        <button class="btn btn-danger" id="clearAllBtn">Reset All Data</button>
+      </div>
+    </section>
+
+    <div class="save-bar">
+      <button class="btn btn-primary" id="saveBtn">Save Settings</button>
+      <span class="save-status" id="saveStatus"></span>
+    </div>
+  </main>
+
+  <script src="../shared/constants.js"></script>
+  <script src="settings.js"></script>
+</body>
+</html>

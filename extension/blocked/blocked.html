@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PhishGuard — Threat Blocked</title>
+  <link rel="stylesheet" href="blocked.css">
+</head>
+<body>
+  <div class="container">
+    <div class="shield-wrap">
+      <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+    </div>
+
+    <h1>Threat Blocked</h1>
+    <p class="subtitle">PhishGuard intercepted a potentially dangerous site before your data could be compromised.</p>
+
+    <div class="url-card">
+      <span class="url-label">Blocked URL</span>
+      <span class="url-text" id="blockedUrl"></span>
+    </div>
+
+    <div class="score-row">
+      <div class="score-pill">
+        <span class="score-label">Risk Score</span>
+        <span class="score-num" id="riskScore">—</span>
+      </div>
+    </div>
+
+    <div class="reason-box">
+      <div class="reason-label">Primary Threat Detected</div>
+      <div class="reason-text" id="reasonText"></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-safe" id="goBackBtn">← Go Back to Safety</button>
+      <button class="btn btn-proceed" id="proceedBtn">Proceed Anyway</button>
+    </div>
+
+    <div class="report-section">
+      <button class="btn btn-report" id="reportBtn">🚨 Report as Phishing</button>
+    </div>
+
+    <p class="footer-note">
+      PhishGuard v3.0 ·
+      <a href="#" id="dashLink">View Dashboard</a> ·
+      <a href="#" id="themeLink" id="themeToggle">Switch Theme</a>
+    </p>
+  </div>
+
+  <!-- Confirm dialog -->
+  <div class="dialog-overlay" id="dialogOverlay" style="display:none">
+    <div class="dialog">
+      <div class="dialog-icon">⚠️</div>
+      <h3>Confirm Report</h3>
+      <p class="dialog-sub">This site will be permanently added to your block list and threat database.</p>
+      <div class="dialog-actions">
+        <button class="btn btn-safe" id="dialogCancel">Cancel</button>
+        <button class="btn btn-report" id="dialogConfirm">Report & Block</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="blocked.js"></script>
+</body>
+</html>

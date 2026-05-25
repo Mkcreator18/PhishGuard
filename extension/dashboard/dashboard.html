@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PhishGuard — Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-logo">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <path d="m9 12 2 2 4-4"/>
+      </svg>
+      PhishGuard · Dashboard
+    </div>
+    <div class="nav-actions">
+      <button class="btn btn-secondary" id="themeBtn">🌙</button>
+      <button class="btn btn-secondary" id="cleanDupesBtn" title="Remove duplicate log entries">🧹 Clean Log</button>
+      <button class="btn btn-secondary" id="reloadPTBtn">⟳ PhishTank</button>
+      <button class="btn btn-primary" id="downloadBtn">⬇ Download Report</button>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Stats -->
+    <div class="stats-grid" id="statsGrid"></div>
+
+    <!-- PhishTank + API Key Guide -->
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">🔗 PhishTank Database</div>
+        <div class="pt-status">
+          <div class="pt-row"><span class="pt-label">Backend</span><span class="pt-val" id="ptStatusVal">Checking…</span></div>
+          <div class="pt-row"><span class="pt-label">Entries</span><span class="pt-val" id="ptEntries">—</span></div>
+          <div class="pt-row"><span class="pt-label">Last Updated</span><span class="pt-val" id="ptUpdated">—</span></div>
+          <div class="pt-row"><span class="pt-label">API Key</span><span class="pt-val" id="ptApiKey">—</span></div>
+        </div>
+        <div class="pt-guide">
+          <div class="guide-title">📋 How to get your free API key</div>
+          <ol class="guide-steps">
+            <li>Go to <a href="https://www.phishtank.com/register.php" target="_blank">phishtank.com/register.php</a></li>
+            <li>Create a free account &amp; confirm email</li>
+            <li>Visit <a href="https://www.phishtank.com/api_register.php" target="_blank">phishtank.com/api_register.php</a></li>
+            <li>Register your app — get API key instantly</li>
+            <li>Run backend with:<br><code>set PHISHTANK_API_KEY=your_key_here</code><br><code>python app.py</code></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔍 URL Scanner</div>
+        <div class="card-sub">Tests URL against all detection modules — works offline too</div>
+        <div class="url-scan-row">
+          <input type="text" id="urlSandboxInput" class="url-input" placeholder="https://suspicious-site.com …">
+          <button class="btn btn-primary" id="urlScanBtn">Scan</button>
+        </div>
+        <div class="url-result" id="urlResult" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- Gmail Sandbox -->
+    <div class="card">
+      <div class="card-title">📧 Gmail Phishing Sandbox</div>
+      <div class="card-sub">Paste any email content to simulate the Gmail NLP phishing scanner</div>
+      <textarea id="gmailSandbox" class="sandbox-input" placeholder="Paste suspicious email content here…&#10;&#10;Example: 'Your PayPal account has been suspended. Verify immediately to avoid closure. Click here to confirm your identity: http://paypal-verify.xyz'"></textarea>
+      <button class="btn btn-primary" id="sandboxScanBtn" style="width:100%;margin-top:10px">🔍 Scan Email Text</button>
+      <div class="sandbox-result" id="sandboxResult" style="display:none"></div>
+    </div>
+
+    <!-- Charts -->
+    <div class="charts-row">
+      <div class="card">
+        <div class="card-title">Risk Distribution</div>
+        <canvas id="pieChart" width="200" height="200"></canvas>
+        <div class="pie-legend" id="pieLegend"></div>
+      </div>
+      <div class="card" style="flex:2">
+        <div class="card-title">Threat Score Timeline</div>
+        <canvas id="lineChart" height="200"></canvas>
+      </div>
+    </div>
+
+    <!-- Threat log -->
+    <div class="card">
+      <div class="card-title">Threat Log</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>URL</th><th>Score</th><th>Primary Threat</th><th>Source</th><th>Time</th></tr></thead>
+          <tbody id="logBody"></tbody>
+        </table>
+        <div class="empty-state" id="emptyState" style="display:none">No threats logged yet</div>
+      </div>
+    </div>
+
+    <!-- Reported sites -->
+    <div class="card">
+      <div class="card-title">User-Reported Sites</div>
+      <div class="table-wrap">
+        <table><thead><tr><th>URL</th><th>Reported At</th></tr></thead>
+        <tbody id="reportedBody"></tbody></table>
+        <div class="empty-state" id="reportedEmpty" style="display:none">No sites reported yet</div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../shared/constants.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>

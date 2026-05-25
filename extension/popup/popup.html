@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PhishGuard</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="header">
+    <div class="logo">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <path d="m9 12 2 2 4-4"/>
+      </svg>
+      <span>PhishGuard</span>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" id="themeToggle" title="Toggle theme">
+        <svg id="moonIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg id="sunIcon"  width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+      </button>
+      <button class="icon-btn" id="dashBtn" title="Dashboard">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      </button>
+      <button class="icon-btn" id="settingsBtn" title="Settings">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Tab bar -->
+  <div class="tab-bar">
+    <button class="tab active" id="tabScan">Scanner</button>
+    <button class="tab" id="tabGmail">📧 Gmail</button>
+  </div>
+
+  <!-- Scanner tab -->
+  <div id="paneScan">
+    <div class="scan-section">
+      <div class="meter-wrap">
+        <svg class="meter-svg" viewBox="0 0 120 70">
+          <path class="meter-track" d="M10,70 A60,60 0 0,1 110,70" stroke-width="10" fill="none"/>
+          <path class="meter-fill" id="meterArc" d="M10,70 A60,60 0 0,1 110,70" stroke-width="10" fill="none" stroke-dasharray="0 188"/>
+        </svg>
+        <div class="meter-center">
+          <span class="score-val" id="scoreVal">0</span>
+          <span class="score-pct">%</span>
+        </div>
+      </div>
+      <div class="status-badge" id="statusBadge">Scanning…</div>
+      <div class="url-display" id="urlDisplay">—</div>
+    </div>
+
+    <div class="findings-section" id="findingsSection" style="display:none">
+      <div class="section-label">Threats Detected</div>
+      <ul class="findings-list" id="findingsList"></ul>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-secondary" id="rescanBtn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        Rescan
+      </button>
+      <button class="btn btn-danger" id="reportBtn" style="display:none">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Report Phishing
+      </button>
+    </div>
+  </div>
+
+  <!-- Gmail sandbox tab -->
+  <div id="paneGmail" style="display:none">
+    <div class="gmail-pane">
+      <div class="gmail-info">Paste suspicious email content to scan for phishing patterns</div>
+      <textarea id="gmailInput" class="gmail-textarea" placeholder="Paste email text here…&#10;&#10;e.g. 'Your PayPal account has been suspended. Verify immediately to avoid closure.'"></textarea>
+      <button class="btn btn-primary full-width" id="gmailScanBtn">🔍 Scan Email</button>
+      <div class="gmail-result" id="gmailResult" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- Confirm report dialog -->
+  <div class="dialog-overlay" id="dialogOverlay" style="display:none">
+    <div class="dialog">
+      <div class="dialog-icon">⚠️</div>
+      <h3>Report as Phishing?</h3>
+      <p id="dialogUrl" class="dialog-url"></p>
+      <p class="dialog-note">Site will be blocked and added to your threat database.</p>
+      <div class="dialog-actions">
+        <button class="btn btn-secondary" id="dialogCancel">Cancel</button>
+        <button class="btn btn-danger" id="dialogConfirm">Report & Block</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../shared/constants.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
